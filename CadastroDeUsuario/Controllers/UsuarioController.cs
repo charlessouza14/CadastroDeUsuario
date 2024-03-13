@@ -29,17 +29,17 @@ namespace CadastroDeUsuario.Controllers
         [HttpGet]
 
         public IEnumerable<Usuario> ListarUsuario([FromQuery] int skip = 0, [FromQuery] int take = 50)
-        {
-            return _context.Usuarios.ToList<Usuario>();
+        {           
+             return _context.Usuarios.ToList<Usuario>();
         }
 
         [HttpGet("{id}")]
 
-        public IActionResult ListarUsuarioPorId (int id)
+        public IActionResult ListarUsuarioPorId ([FromQuery] int id)
         {
-            if(id == null)
+            if(id <= 0)
             {
-                return BadRequest();
+                return BadRequest("Id inválido!");
             }
             var usuario = _context.Usuarios.FirstOrDefault(usario => usario.Id == id);
 
@@ -62,17 +62,17 @@ namespace CadastroDeUsuario.Controllers
 
         [HttpDelete("{id}")]
 
-        public IActionResult RemoverUsuario(int id)
+        public IActionResult RemoverUsuario([FromQuery] int id)
         {
-            if (id == null)
+            if (id <= 0)
             {
-                return NotFound();
+                return BadRequest("Id inválido!");
             }
 
             var usuario = _context.Usuarios.FirstOrDefault( usuario => usuario.Id == id);
             _context.Remove(usuario);
             _context.SaveChanges();
-            return NoContent();
+            return Ok(usuario);
 
         }
 

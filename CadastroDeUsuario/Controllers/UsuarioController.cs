@@ -1,5 +1,6 @@
 ﻿using CadastroDeUsuario.Data;
 using CadastroDeUsuario.Models;
+using CadastroDeUsuario.Repository;
 using Microsoft.AspNetCore.Mvc;
 using System.Diagnostics.CodeAnalysis;
 using System.Security.Cryptography.X509Certificates;
@@ -12,18 +13,23 @@ namespace CadastroDeUsuario.Controllers
     {
 
         private readonly UsuarioContext _context;
-        public UsuarioController(UsuarioContext context)
+        private readonly UsuarioRepository _repository;
+        UsuarioController(UsuarioContext context, UsuarioRepository repository)
         {
-            _context = context;            
+            _context = context;
+            _repository = repository;
         }
 
         [HttpPost]
-
         public IActionResult AdicionaUsuario([FromBody] Usuario usuario)
         {
-            _context.Usuarios.Add(usuario);
-            _context.SaveChanges();
+
+            _repository.Adicionar(usuario);
             return Ok(usuario);
+
+            //_context.Usuarios.Add(usuario);
+            //_context.SaveChanges();
+            //return Ok(usuario);
         }
 
         [HttpGet]
@@ -48,16 +54,16 @@ namespace CadastroDeUsuario.Controllers
 
         [HttpPut("{id}")]
 
-        public IActionResult AtualizaUsuarioPorId([FromBody]int id)
+        public IActionResult AtualizaUsuarioPorId([FromBody] Usuario usuario)
         {
-            if(id == null) 
-            { 
-                return NotFound();
-            }
-            var usuario = _context.Usuarios.FirstOrDefault(usuario => usuario.Id == id);           
-            _context.Usuarios.Update(usuario);
+           
+            var atualizar = _context.Usuarios.FirstOrDefault( u => u.Id == usuario.Id );
+            atualizar.Senha = usuario.Senha;
+            atualizar.Email = usuario.Email;
+            atualizar.Nome = usuario.Nome;
+            _context.Usuarios.Update(atualizar);
             _context.SaveChanges();
-            return NoContent();
+            return Ok(atualizar);
         }
 
         [HttpDelete("{id}")]

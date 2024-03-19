@@ -47,6 +47,7 @@ namespace CadastroDeUsuario.Controllers
             {
                 return BadRequest("Id inválido!");
             }
+
             var usuario = _context.Usuarios.FirstOrDefault(usario => usario.Id == id);
 
             return Ok(usuario);
@@ -57,13 +58,16 @@ namespace CadastroDeUsuario.Controllers
         public IActionResult AtualizaUsuarioPorId([FromBody] Usuario usuario)
         {
            
-            var atualizar = _context.Usuarios.FirstOrDefault( u => u.Id == usuario.Id );
-            atualizar.Senha = usuario.Senha;
-            atualizar.Email = usuario.Email;
-            atualizar.Nome = usuario.Nome;
-            _context.Usuarios.Update(atualizar);
-            _context.SaveChanges();
-            return Ok(atualizar);
+            _repository.Atualizar(usuario);
+            return Ok(usuario);
+
+            //var atualizar = _context.Usuarios.FirstOrDefault( u => u.Id == usuario.Id );
+            //atualizar.Senha = usuario.Senha;
+            //atualizar.Email = usuario.Email;
+            //atualizar.Nome = usuario.Nome;
+            //_context.Usuarios.Update(atualizar);
+            //_context.SaveChanges();
+            //return Ok(atualizar);
         }
 
         [HttpDelete("{id}")]
@@ -74,11 +78,14 @@ namespace CadastroDeUsuario.Controllers
             {
                 return BadRequest("Id inválido!");
             }
+            
+            _repository.Deletar(id);
+            return Ok(id);
 
-            var usuario = _context.Usuarios.FirstOrDefault( usuario => usuario.Id == id);
-            _context.Remove(usuario);
-            _context.SaveChanges();
-            return Ok(usuario);
+            //var usuario = _context.Usuarios.FirstOrDefault( usuario => usuario.Id == id);
+            //_context.Remove(usuario);
+            //_context.SaveChanges();
+            //return Ok(usuario);
 
         }
 

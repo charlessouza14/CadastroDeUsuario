@@ -5,18 +5,19 @@ using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
-namespace CadastroDeUsuario.Repository
-{
+namespace CadastroDeUsuario.Repository;
     public class UsuarioRepository : IUsuarioRepository
     {
 
         private readonly UsuarioContext _context;
-        UsuarioRepository(UsuarioContext context)
-        {
-            _context = context;
-        }
-        
-        public void Adicionar(Usuario usuario)
+
+    public UsuarioRepository(UsuarioContext context)
+    {
+        _context = context;
+    }
+
+
+    public void Adicionar(Usuario usuario)
         {
             _context.Usuarios.Add(usuario);
             _context.SaveChanges();
@@ -53,4 +54,4 @@ namespace CadastroDeUsuario.Repository
         }
     }
 
-}  
+  

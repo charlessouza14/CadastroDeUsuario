@@ -1,4 +1,5 @@
 ﻿using CadastroDeUsuario.Data;
+using CadastroDeUsuario.Interfaces;
 using CadastroDeUsuario.Models;
 using CadastroDeUsuario.Repository;
 using Microsoft.AspNetCore.Mvc;
@@ -13,13 +14,13 @@ namespace CadastroDeUsuario.Controllers
     {
 
         private readonly UsuarioContext _context;
-        private readonly UsuarioRepository _repository;
-        UsuarioController(UsuarioContext context, UsuarioRepository repository)
+        private readonly IUsuarioRepository _repository;
+        public UsuarioController(UsuarioContext context, IUsuarioRepository repository)
         {
             _context = context;
             _repository = repository;
         }
-
+       
         [HttpPost]
         public IActionResult AdicionaUsuario([FromBody] Usuario usuario)
         {

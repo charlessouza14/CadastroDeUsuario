@@ -9,7 +9,7 @@ namespace CadastroDeUsuario.Repository;
     public class UsuarioRepository : IUsuarioRepository
     {
 
-        private readonly UsuarioContext _context;
+    private readonly UsuarioContext _context;
 
     public UsuarioRepository(UsuarioContext context)
     {
@@ -35,15 +35,14 @@ namespace CadastroDeUsuario.Repository;
 
         public async Task<Usuario> BuscarPorId(int id)
         {
-            throw new NotImplementedException();
-
-            //var usuario = await _context.Usuarios.FirstOrDefaultAsync(usario => usario.Id == id);
-            //return usuario;
+           var usuario = await _context.Usuarios.FirstOrDefaultAsync(usario => usario.Id == id);
+           return usuario;
         }
 
-        public Task<IEnumerable<Usuario>> BuscarUsuario()
+        public async Task<IEnumerable<Usuario>> BuscarUsuario()
         {
-            throw new NotImplementedException();
+            var buscar = await _context.Usuarios.ToListAsync<Usuario>();       
+            return buscar;
         }
 
         public void Deletar(int id)

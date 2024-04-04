@@ -2,6 +2,7 @@
 using CadastroDeUsuario.Interfaces;
 using CadastroDeUsuario.Models;
 using CadastroDeUsuario.Repository;
+using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.AspNetCore.Mvc;
 using System.Diagnostics.CodeAnalysis;
 using System.Security.Cryptography.X509Certificates;
@@ -10,7 +11,7 @@ namespace CadastroDeUsuario.Controllers
 {
     [ApiController]
     [Microsoft.AspNetCore.Mvc.Route("[Controller]")]
-    public class UsuarioController : ControllerBase
+    public class UsuarioController : ControllerBase                            
     {
 
         private readonly UsuarioContext _context;
@@ -26,49 +27,35 @@ namespace CadastroDeUsuario.Controllers
         {
 
             _repository.Adicionar(usuario);
-            return Ok(usuario);
+            return Ok("Criado com sucesso");
 
-            //_context.Usuarios.Add(usuario);
-            //_context.SaveChanges();
-            //return Ok(usuario);
         }
 
         [HttpGet]
 
-        public IEnumerable<Usuario> ListarUsuario([FromQuery] int skip = 0, [FromQuery] int take = 50)
-        {           
-             return _context.Usuarios.ToList<Usuario>();
+        public Task<IEnumerable<Usuario>> ListarUsuario ([FromQuery] int skip = 0, [FromQuery] int take = 50)
+        {
+            return _repository.BuscarUsuario();            
         }
 
         [HttpGet("{id}")]
 
-        public IActionResult ListarUsuarioPorId ([FromQuery] int id)
+        public Task<Usuario> ListarUsuarioPorId ([FromQuery] int id)
         {
             if(id <= 0)
             {
-                return BadRequest("Id inválido!");
+                BadRequest("Id inválido!");
             }
 
-            var usuario = _context.Usuarios.FirstOrDefault(usario => usario.Id == id);
-
-            return Ok(usuario);
+           return  _repository.BuscarPorId(id);
         }
 
         [HttpPut("{id}")]
 
         public IActionResult AtualizaUsuarioPorId([FromBody] Usuario usuario)
         {
-           
             _repository.Atualizar(usuario);
             return Ok(usuario);
-
-            //var atualizar = _context.Usuarios.FirstOrDefault( u => u.Id == usuario.Id );
-            //atualizar.Senha = usuario.Senha;
-            //atualizar.Email = usuario.Email;
-            //atualizar.Nome = usuario.Nome;
-            //_context.Usuarios.Update(atualizar);
-            //_context.SaveChanges();
-            //return Ok(atualizar);
         }
 
         [HttpDelete("{id}")]
@@ -81,13 +68,7 @@ namespace CadastroDeUsuario.Controllers
             }
             
             _repository.Deletar(id);
-            return Ok(id);
-
-            //var usuario = _context.Usuarios.FirstOrDefault( usuario => usuario.Id == id);
-            //_context.Remove(usuario);
-            //_context.SaveChanges();
-            //return Ok(usuario);
-
+            return Ok("Deletado com sucesso");
         }
 
 

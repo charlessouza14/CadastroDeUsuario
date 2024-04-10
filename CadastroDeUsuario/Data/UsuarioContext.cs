@@ -11,5 +11,7 @@ namespace CadastroDeUsuario.Data
             
         }
         public DbSet<Usuario> Usuarios { get; set; }
+        public DbSet<Encomenda> Encomenda { get; set; }
+
     }
 }

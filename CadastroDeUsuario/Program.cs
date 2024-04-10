@@ -19,6 +19,9 @@ builder.Services.AddSwaggerGen();
 
 builder.Services.AddScoped<IUsuarioRepository, UsuarioRepository>();
 builder.Services.AddScoped<ILoginRepository, LoginRepository>();
+builder.Services.AddScoped<IEncomendaRepository, EncomendaRepository>();
+
+
 
 
 var app = builder.Build();

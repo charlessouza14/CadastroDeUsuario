@@ -22,6 +22,12 @@ namespace CadastroDeUsuario.Repository
             return buscar;
         }
 
+        public void CriarConta(Usuario usuario)
+        {
+            _context.Usuarios.Add(usuario);
+            _context.SaveChanges();
+        }
+
        
     }
 }

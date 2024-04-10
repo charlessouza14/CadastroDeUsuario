@@ -25,6 +25,14 @@ namespace CadastroDeUsuario.Controllers
             return buscar;  
         }
 
+        [HttpPost]
+        
+        public IActionResult Criar([FromBody] Usuario usuario)
+        {
+            _repository.CriarConta(usuario);
+            return Ok("Cadastrado com sucesso!");
+        }
+
 
     }
 }

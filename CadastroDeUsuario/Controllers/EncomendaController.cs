@@ -27,6 +27,12 @@ namespace CadastroDeUsuario.Controllers
 
         }
 
+        [HttpGet]
+        public Task<IEnumerable<Encomenda>> ListarEncomenda([FromQuery] int skip = 0, [FromQuery] int take = 50)
+        {
+            return _repository.Listar();
+        }
+
 
     }
 }

@@ -1,6 +1,7 @@
 ﻿using CadastroDeUsuario.Data;
 using CadastroDeUsuario.Interfaces;
 using CadastroDeUsuario.Models;
+using Microsoft.EntityFrameworkCore;
 
 namespace CadastroDeUsuario.Repository
 {
@@ -16,6 +17,12 @@ namespace CadastroDeUsuario.Repository
         {
             _context.Add(encomenda);
             _context.SaveChanges();
+        }
+
+        public async Task<IEnumerable<Encomenda>> Listar()
+        {
+            var buscar = await _context.Encomenda.ToListAsync<Encomenda>();
+            return buscar;
         }
     }
 }
